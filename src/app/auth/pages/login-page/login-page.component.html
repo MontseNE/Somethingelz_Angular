@@ -1,0 +1,30 @@
+<h2 class="text-center pt-4 pb-4"> Inicio de sesión </h2>
+
+<div class="d-flex justify-content-center aling-items-center ">
+  <form class="form-control-sm" autocomplete="off" [formGroup]="myForm" (ngSubmit)="login()">
+    <!-- Email input -->
+    <div class="form-outline mb-4" formControlName="email" ngDefaultControl>
+      <label class="form-label" for="email">Email de acceso</label>
+      <input type="email" id="email" placeholder="Correo electrónico" class="form-control" />
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4" formControlName="password" ngDefaultControl>
+      <label class="form-label" for="password">Tu contraseña</label>
+      <input type="password" id="password" placeholder="Introduzca su contraseña" class="form-control" />
+    </div>
+
+    <div class="col text-center">
+      <button type="submit" class="btn btn-dark mb-4 center-block" [disabled]="myForm.invalid">
+        Entrar en Somethingelz
+      </button>
+    </div>
+
+    <div class="col text-center">
+      <p>¿No tienes cuenta? <a [routerLink]="['/auth/registro']">Crea una pinchando aquí</a>
+      </p>
+    </div>
+
+
+  </form>
+</div>

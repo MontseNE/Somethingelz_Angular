@@ -1,0 +1,57 @@
+<header
+  style="display:flex; flex:flex-wrap; flex-direction: row;  justify-content:space-between; align-items:baseline;">
+  <div style="margin-left: 5%; padding-right: 10%;">
+    <img style="padding-top:50px; margin-left:30px;" src="./assets/images-header/llavesTurquesa.png" width="38px"
+      alt="logo-Somethingelz">
+    <img style="margin-left: -25px;" src="./assets/images-header/logo-Somethingelz.png" width="200px"
+      alt="logo-Somethingelz">
+  </div>
+  <div style="margin-right: 100px;">
+
+    @if(!ischecked){
+    <button [routerLink]="['/auth/login']" class="btn btn-dark ">Iniciar Sesión</button>
+    }@else{
+    <button (click)="logout()" class="btn btn-dark "> Cerrar Sesión</button>
+    }
+  </div>
+
+</header>
+
+<!-- <nav class="menu">
+  <ul>
+
+      <li> <img class="x" src="img/x.png" width="50px" alt=""></li>
+      <li><a class="p" href="index.html">A & M</a></li>
+      <li><a href="paris2.html">Lista de favoritos</a> <img class="torre" src="img/torreEiffel.png" width="55px" alt=""></li>
+      <li><a href="specialMoments">Configuración</a></li>
+      <li><a href="private.html">Private</a></li>
+  </ul>
+</nav>
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+      <div class="carousel-item active">
+          <img src="img/tourEiffel.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+          <img src="img/amanecPortamaris.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+          <img src="img/sacra.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+          <img src="img/granSol.jpg" class="d-block w-100" alt="...">
+      </div>
+
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+  </button>
+</div> -->
