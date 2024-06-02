@@ -1,0 +1,37 @@
+<header>
+  <div class="logo_total" [routerLink]="['/properties/home']">
+    <img class="llaves" src="./assets/images-header/llavesTurquesa.png" width="38rem" alt="logo-Somethingelz">
+    <img class="logo" src="./assets/images-header/logo-Somethingelz.png" width="200rem" alt="logo-Somethingelz">
+  </div>
+  <div class="sesion" (mouseover)="showMenu()">
+
+    @if(!user){
+    <button [routerLink]="['/auth/login']" class="btn btn-dark">Iniciar Sesión</button>
+    }@else{
+    <div class="user">
+      <a>{{this.user.name|titlecase}} <img src="./assets/images-header/icon_drop_down.png" width="10rem"></a>
+
+    </div>
+    @if(show){
+    <ul class="submenu" (mouseleave)="hideMenu()">
+
+      @if (user.roles.includes('admin')) {
+      <li> <a [routerLink]="['/properties/listado-propiedades']">Listado</a></li>
+      <li><a [routerLink]="['/properties/addproperty']"> Añadir propiedad </a></li>
+
+      }@else{
+      <li><a>Cuenta</a> </li>
+      <li> <a [routerLink]="['/properties/listado-favoritos']"> Favoritos</a> </li>
+      }
+
+      <li> <a (click)="logout()">Salir</a>
+
+        <img src="./assets/images-header/icon_logout_black.png" alt="icono cerrar sesión" width="25rem">
+      </li>
+    </ul>
+    }
+
+    }
+  </div>
+
+</header>

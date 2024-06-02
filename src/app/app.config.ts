@@ -15,6 +15,8 @@ export const appConfig: ApplicationConfig = {
     HttpClientModule,
     BrowserModule,
     ReactiveFormsModule,
+
+
   )
   ]
 };

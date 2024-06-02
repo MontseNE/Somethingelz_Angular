@@ -1,0 +1,14 @@
+.container {
+  padding-top: 2rem;
+  width: 80%;
+  margin: auto;
+
+}
+
+.propiedad :hover {
+  max-width: 92%;
+}
+
+.fav :hover {
+  border-radius: solid 50px #1bb8ab;
+}

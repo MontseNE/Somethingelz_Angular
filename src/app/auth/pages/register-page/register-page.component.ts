@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
 
   standalone: true,
-  imports: [RouterModule, RouterLink, ReactiveFormsModule],
+  imports: [RouterModule, RouterLink, ReactiveFormsModule, CommonModule],
   templateUrl: './register-page.component.html',
   styles: ``
 })
@@ -23,25 +23,68 @@ export default class RegisterPageComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
 
   });
-  registerConfirm() {
 
-    alert('¡ Ya estás registrado !');
-
-    this.router.navigateByUrl('/properties/home')
-  }
+  public fail = false;
 
   register() {
 
-    const { name, email, password, } = this.myForm.value;
-    console.log('VAMOS A LLAMAR AUTHSERVICE LOGIN()');
-    console.log(email);
-    console.log(password);
-    this.authService.register(name, email, password)
-      .subscribe({
-        next: () => this.registerConfirm(),
-        error: (message) => {
-          alert(message);
-        }
-      })
+    if (this.myForm.valid) {
+
+      const { name, email, password, } = this.myForm.value;
+
+      this.authService.register(name, email, password)
+        .subscribe({
+          next: () => this.router.navigateByUrl('/propiedades/home'),
+          error: (message) => {
+            alert(message);
+            this.fail = true;
+          }
+        })
+    }
   }
+
+
+  isValidField(field: string): boolean | null {
+    return this.myForm.controls[field].errors
+      && this.myForm.controls[field].touched;
+  }
+
+  getFieldError(field: string): string | null {
+
+    if (!this.myForm.controls[field]) return null;
+
+    const errors = this.myForm.controls[field].errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch (key) {
+        case 'required':
+          return 'Este campo es requerido';
+        case 'email':
+          return 'Introduzca un email válido';
+        case 'minlength':
+          return `Mínimo ${errors['minlength'].requiredLength} caracteres.`;
+      }
+    }
+
+    return null;
+  }
+
+
+  onSave(): void {
+
+    if (this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      return;
+    }
+
+    console.log(this.myForm.value);
+
+    this.myForm.reset({ price: 0, inStorage: 0 });
+
+  }
+
+
+
+
+
 }

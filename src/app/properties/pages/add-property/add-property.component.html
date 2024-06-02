@@ -1,0 +1,152 @@
+<div class="all">
+  <div class="formulario d-flex justify-content-center">
+    <!-- <div class="contenedor "> -->
+
+    <form style="width: 50%;" class="form-control-lg" autocomplete="off" [formGroup]="myForm"
+      (ngSubmit)="createProperty()">
+      <h3 style="text-align: center; margin-bottom: 3rem;">Añade un inmueble</h3>
+      <div>
+        <div class="row mt-4">
+          <div class="col ">
+            <label class="label" for="operation">Tipo de operación</label>
+            <select class="form-select mb-3" formControlName="operation">
+              <label class="label" for="operation">Tipo de operación </label>
+              <option selected disabled>Selecciona una opción</option>
+              <option value="venta">Venta</option>
+              <option value="alquiler">Alquiler</option>
+            </select>
+          </div>
+
+          <div class=" col">
+            <label class="label" for="tipology">Tipo de inmueble</label>
+            <select class="form-select mb-3" formControlName="tipology" ngDefaultControl>
+              <option selected disabled> Selecciona una opción</option>
+              <option value="piso">Piso</option>
+              <option value="terreno">Terreno</option>
+              <option value="casa-independiente">Casa independiente</option>
+              <option value="casa-adosada">Casa adosada</option>
+              <option value="ático">Ático</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="form-outline mb-3">
+          <label class="label" for="title">Título del inmueble</label>
+          <input type="text" id="title" placeholder="Introduce el título del inmueble" class="form-control"
+            formControlName="title" ngDefaultControl />
+        </div>
+
+
+        <div class="form-outline mb-3">
+          <label class="label" for="address">Dirección</label>
+          <input type="text" id="address" formControlName="address" placeholder="Introduce la dirección del inmueble"
+            class="form-control" formControlName="address" ngDefaultControl />
+        </div>
+
+
+        <div class="form-outline mb-3">
+          <label class="label" for="municipality">Localidad</label>
+          <input type="text" id="municipality" placeholder="Introduce la localidad a la que pertenece el inmueble"
+            class="form-control" formControlName="municipality" ngDefaultControl />
+        </div>
+
+
+        <div class="form-outline mb-3">
+          <label class="label" for="province">Provincia</label>
+          <input type="text" id="province" placeholder="Introduce la provincia a la que pertenece el inmueble"
+            class="form-control" formControlName="province" ngDefaultControl />
+        </div>
+
+        <div class="mb-3">
+          <label class="label" for="description">Descripción</label>
+          <textarea id="description" placeholder="Añade una descripción" rows="8" class="form-control"
+            formControlName="description" ngDefaultControl></textarea>
+        </div>
+
+        <div class="row">
+          <div class="col ">
+
+
+            <label class="form-check-label label" for="garage"> Garaje </label> <br>
+            <input class="form-check-input" type="checkbox" formControlName="garage" name="garage" ngDefaultControl>
+
+          </div>
+
+
+          <div class="col form-outline mb-3">
+            <label class="label" for="n_rooms">Nº de habitaciones</label>
+            <input type="number" [min]="0" id="n_rooms" placeholder="¿Cuántas habitaciones tiene?" class="form-control"
+              formControlName="n_rooms" ngDefaultControl />
+          </div>
+
+          <div class="col form-outline mb-3">
+            <label class="label" for="n_bathrooms">Nº de baños</label>
+            <input type="number" [min]="0" id="n_bathrooms" formControlName="n_bathrooms"
+              placeholder="¿Cuántos baños tiene?" class="form-control" ngDefaultControl />
+          </div>
+
+          <label for="size" class="form-label label">Tamaño</label>
+          <div class=" col input-group mb-3">
+            <input type="number" [min]="0" id="size" formControlName="size" placeholder="Introduce el tamaño"
+              class="form-control" ngDefaultControl />
+            <span class="input-group-text-sm"> &nbsp;m <sup>2</sup></span>
+          </div>
+
+          <label for="precio" class="form-label label">Precio</label>
+          <div class="col input-group mb-4">
+            <input type="number" [min]="0" id="precio" formControlName="precio" placeholder="Introduce el precio"
+              class="form-control" ngDefaultControl />
+            <span class="input-group-text-sm">&nbsp;€</span>
+          </div>
+        </div>
+      </div>
+      <button style="margin-left: 40%;" type=" submit" class=" btn btn-dark mt-4 mb-4 center-block"
+        [disabled]="myForm.invalid">
+        Guardar datos
+      </button>
+    </form>
+  </div>
+
+  <div class="formulario2">
+    <h5>Imágenes</h5>
+    <!-- Aquí creamos un contenedor para las imágenes seleccionadas -->
+    <div class="row mt-4 mb-2">
+      <!-- Huecos predeterminados para subir las imágenes -->
+      <div class="col-md-3 mb-3 " *ngFor="let _ of placeholderArray let i = index">
+        <div class="card-group">
+
+          <div class="card propiedad">
+            <div class="card-body">
+
+              <input type="file" class="d-none" (change)="onPhotoSelected($event,i)" #photoInput>
+              <img *ngIf="imagenes[i]" [src]="imagenes[i]" style="object-fit: contain;" class="img-fluid mt-2 mb-2"
+                alt="subir imagen" (click)="photoInput.click()" (click)="onPhotoInputClick($event)">
+              <img class="img_ph" *ngIf="!imagenes[i]" src="./assets/images-properties/foto(1).jpg"
+                class="card-img-top mt-2 mb-2" alt="placeholder" (click)="photoInput.click()"
+                (click)="onPhotoInputClick($event)">
+
+              <input type="text" class="form-control" placeholder="Elige un título" #title>
+            </div>
+
+            <div class="d-flex justify-content-evenly mb-4">
+
+              <img width="20%" src="./assets/images-properties/guardar.png"
+                (click)="onFileSelected(title.value,photoInput)" alt="">
+
+              <img width="20%" src="./assets/images-properties/eliminar.png" (click)="removeFile(i)" alt="">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <button style="margin-left: 40%;" class=" btn btn-dark mt-4 mb-4 center-block" (click)="getImages()">
+      Guardar propiedad
+    </button>
+
+  </div>
+
+</div>

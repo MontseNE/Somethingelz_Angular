@@ -4,14 +4,13 @@ import { RouterLink, RouterModule, Router } from '@angular/router';
 //import Swal from 'sweetalert2';
 
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
-import { routes } from '../../../app.routes';
+
 
 
 @Component({
 
   standalone: true,
-  imports: [RouterModule, RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [RouterModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login-page.component.html',
   styles: ``
 })

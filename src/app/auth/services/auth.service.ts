@@ -5,6 +5,7 @@ import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 
 import { AuthStatus, CheckTokenResponse, LoginResponse, User } from '../interfaces';
 import { JsonPipe } from '@angular/common';
+import { Property } from '../../properties/interfaces/property.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,45 +22,79 @@ export class AuthService {
   public currentUser = computed(() => this._currentUser());
   public authStatus = computed(() => this._authStatus());
   private roles = this._currentUser()?.roles;
+  public favProperties = computed(() => this._currentUser()?.favList);
 
   constructor() {
     this.checkAuthStatus().subscribe();
   }
+
 
   private setAuthentication(user: User, token: string): boolean {
 
     this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);
-    localStorage.setItem('user', this._currentUser.name);
+    if (user.id)
+      localStorage.setItem('id', user.id);
+
     console.log(this._authStatus());
-    console.log(this._currentUser.name);
+    console.log(this._currentUser());
+    console.log("Imprimiendo ID del usuario actual " + this._currentUser()!.id);
     return true;
   }
+
 
   login(email: string, password: string): Observable<boolean> {
 
     const url = `${this.baseUrl}/api/auth/login`;
     const body = { email, password };
-    const resp = this.http.post<LoginResponse>(url, body)
+    const resp = this.http.post<User>(url, body)
       .pipe(
-        map(({ user, token }) => this.setAuthentication(user, token)),
+        map((user) => this.setAuthentication(user, user.token)),
         catchError(err => throwError(() => err.error.message))
-
       );
-
     return resp;
   }
+
+  updateUserFavList(userId: string, favList: string[]): Observable<User> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    return this.http.patch<User>(`${this.baseUrl}/api/auth/${userId}`, { favList }, { headers });
+  }
+
+
+  toggleFavorite(propertyId: string) {
+    const id = localStorage.getItem('id');
+
+    if (!id) return;
+    console.log(id);
+    const favList = this._currentUser()?.favList || [];
+    const index = favList.indexOf(propertyId);
+    if (index > -1) {
+      favList.splice(index, 1); // eliminar favoritos
+    } else {
+      favList.push(propertyId); // añadir a favoritos
+    }
+
+
+    this.updateUserFavList(id, favList).subscribe(updatedUser => {
+      this._currentUser.set(updatedUser);
+      console.log(this._currentUser());
+
+      //this.updateFavProperties();
+    });
+  }
+
 
   register(name: string, email: string, password: string): Observable<boolean> {
 
     const url = `${this.baseUrl}/api/auth/register`;
     const body = { name, email, password };
-    const resp = this.http.post<LoginResponse>(url, body)
+    const resp = this.http.post<User>(url, body)
       .pipe(
-        map(({ user, token }) => this.setAuthentication(user, token)),
+        map((user) => this.setAuthentication(user, user.token)),
         catchError(err => throwError(() => err.error.message))
-
       );
     return resp;
   }
@@ -78,9 +113,9 @@ export class AuthService {
       .set('Authorization', `Bearer ${token}`);
 
     console.log('Hay token');
-    return this.http.get<CheckTokenResponse>(url, { headers })
+    return this.http.get<User>(url, { headers })
       .pipe(
-        map(({ user, token }) => this.setAuthentication(user, token)),
+        map((user) => this.setAuthentication(user, user.token)),
         catchError(() => {
           this._authStatus.set(AuthStatus.notAuthenticated);
           return of(false);
@@ -91,6 +126,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     this._currentUser.set(null);
     this._authStatus.set(AuthStatus.notAuthenticated);
     console.log('cerrando sesión');
@@ -101,13 +137,13 @@ export class AuthService {
     return this.roles?.includes('admin');
   }
 
-  isUser(): boolean | undefined {
-    return this.roles?.includes('user');
+  userName(): string | undefined {
+    return this._currentUser()?.name;
   }
 
   isLogged(): boolean {
 
-    return this._currentUser != null;
+    return this._currentUser !== null;
   }
 
 

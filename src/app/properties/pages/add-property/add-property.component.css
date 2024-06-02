@@ -1,0 +1,69 @@
+.all {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+/* imagen {
+  border: 1px solid #1bb8ab;
+  border-radius: 5%;
+} */
+
+.img_ph :hover {
+  width: 50%;
+}
+
+/* Estilo para el contenedor principal del formulario */
+.formulario2 {
+
+  width: 60%;
+  /* Ancho del formulario */
+  /* Centrar horizontalmente */
+}
+
+/* Estilo para los campos de entrada */
+.form-control {
+  margin-bottom: 1rem;
+  /* Espacio entre los campos */
+}
+
+/* Estilo para las etiquetas de los campos */
+.label {
+  font-weight: 600;
+  /* Texto en negrita */
+}
+
+propiedad :hover {
+  border: 1px solid #20c997;
+}
+
+/* Estilo para los botones */
+.btn {
+  margin-top: 1rem;
+  /* Espacio encima del botón */
+}
+
+/*
+img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+} */
+
+/* .card {
+
+  max-height: 8rem;
+  margin-bottom: 1rem;
+} */
+
+/* .placeholder-card {
+  margin-bottom: 1rem;
+} */
+
+/* .card-img-top {
+  width: 100%;
+  height: auto;
+} */

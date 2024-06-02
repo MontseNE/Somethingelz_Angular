@@ -1,0 +1,46 @@
+<div class="container justify-content-center ">
+  @for(property of propertiesService.properties(); track property.id){
+  @if(property.id){
+  <div class=" d-flex justify-content-between"
+    style="margin-top: 1rem; background-color: white; border-radius: 8px; height:200px;">
+
+
+    @if(property.images[0] && property.images[0].filename){
+    <div (click)="toProperty(property.id)" class="col">
+      <img height="200" width="auto" [srcset]="propertiesService.getUrl(property.images[0].filename)"
+        alt="image.filename">
+    </div>
+    }@else {
+    <div (click)="toProperty(property.id)" style="justify-content: center;">
+      <img height="200" width="auto" [srcset]="'./assets/images-properties/imagePlaceholder.jpg'"
+        alt="No hay imágenes disponibles">
+    </div>
+
+    }
+    <div style="padding-top:1.2rem;" class="col-md-8">
+      <div (click)="toProperty(property.id)">
+        <h5 class="card-title" style="color: #1bb8ab; margin-bottom: 0.5rem;">{{property.title|titlecase }}</h5>
+        <p class="card-text">{{propertiesService.recortarDescripcion(property.description)|titlecase }} ...</p>
+        <h5 class="card-text">{{ property.precio }}&nbsp;€</h5>
+        <div>
+          <span style="color: #1bb8ab; margin-right: 3rem;">{{ property.municipality }}</span>
+
+        </div>
+      </div>
+
+    </div>
+
+    @if(authService.currentUser()!==null){
+    <div>
+      <img class="fav" width="25px" style="position: relative; top: 78%; right: 2rem;"
+        [src]="propertiesService.isFav(property.id)" alt="Marcar como favorito"
+        (click)="authService.toggleFavorite(property.id)">
+    </div>
+    }
+  </div>
+  }
+  } @empty {
+
+  <h4 style="margin-left: 25%;">No tienes guardada ninguna propiedad en tu listado de favoritos</h4>
+  }
+</div>

@@ -1,1 +1,43 @@
-<h1>frontpage</h1>
+<img class="portada" width="100vw" src="./assets/images-frontpage/portada.jpg" alt="imagen Torremanzanas">
+
+<div class="container">
+  <form [formGroup]="myForm" (ngSubmit)="findProperties()">
+    <div class=" buscador row  d-flex align-items-center justify-content-around">
+
+      <div class="botones col">
+        <span class="boton1" (click)="changeColor($event)" [style.background-color]="button1Color()"
+          id="selection1">COMPRAR</span>
+
+        <span class="boton2" (click)="changeColor($event)" [style.background-color]="button2Color()"
+          id="selection2">ALQUILAR</span>
+
+      </div>
+
+      <div class="col select1">
+        <select class="form-select-lg mt-4 mb-4" formControlName="tipology">
+          <option value="" selected disabled>Tipo de inmueble</option>
+          @for (tipology of propertiesService.tipologies(); track $index) {
+          <option [value]="tipology">{{tipology|titlecase}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col select2">
+        <select class="form-select-lg mt-4 mb-4" formControlName="municipality">
+          <option value="" selected disabled>Localidad</option>
+          @for (municipality of propertiesService.municipalities(); track $index) {
+          <option [value]="municipality">{{municipality|titlecase}}</option>
+          }
+        </select>
+      </div>
+      <div class="col">
+        <button class="btnBuscar" type="submit" class="btn btn-dark btn-lg">
+          BUSCAR
+        </button>
+      </div>
+    </div>
+  </form>
+
+
+
+</div>

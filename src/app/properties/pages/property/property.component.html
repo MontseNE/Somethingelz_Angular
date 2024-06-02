@@ -1,1 +1,69 @@
-<h1>Property</h1>
+<div class="" style="width: 80%;margin-right: auto; margin-left: auto; background-color: white; margin-top: 3rem;">
+
+  @if(property()?.images && property()!.images.length>0){
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      @for(image of property()?.images; track image.id; let i = $index, first = $first ){
+
+      @if(first){
+
+      <div class="carousel-item active">
+        <img style="object-fit: cover; margin-bottom: 2rem; height: 100vh; width: 150vh;" *ngIf=" image.filename"
+          [srcset]="propertiesService.getUrl(image.filename)" class="d-block h-80vh" alt="image.filename">
+      </div>
+
+      }@else {
+
+      <div class="carousel-item">
+        <img *ngIf=" image.filename" [srcset]="propertiesService.getUrl(image.filename)" class="d-block w-100"
+          alt="image.filename">
+      </div>
+      }
+      }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div style="margin: 2rem 8rem;">
+    <div>
+      <h3 style="color:#1bb8ab;">{{property()?.title}}</h3>
+    </div>
+    <div style="font-weight: 600; margin-bottom: 0.5rem;font-size: 1.2rem;"> {{property()?.municipality}} </div>
+    <div style="margin-bottom: 1rem;">
+      <span
+        style="margin-top: 0.5rem; margin-bottom: 1rem;color:#1bb8ab; font-weight: 600; font-size: 1.2rem;">{{property()?.precio}}&nbsp;€</span>
+    </div>
+
+    <div style="font-weight: 500; margin-bottom: 1rem;">
+      <span style="margin-right: 1.4rem; ">{{property()?.size}}&nbsp;m<sup>2</sup></span>
+      <span style="margin-right: 1.4rem; ">|</span>
+      <span style="margin-right: 1.4rem; ">{{property()?.n_rooms}}&nbsp;hab.</span>
+      <span style="margin-right: 1.4rem; ">|</span>
+      <span>{{property()?.n_bathrooms}}&nbsp;baños.</span>
+    </div>
+
+    <h5 style="color:#1bb8ab;">Descripción </h5>
+    <div style="margin-top: 0.5rem; margin-bottom: 1.5rem;"> {{property()?.description}} </div>
+
+
+    @for(image of property()?.images; track image.id ){
+    <div class="d-flex justify-content-center">
+      <img width="800px" height="600px" style="object-fit: cover; margin-bottom: 2rem;" *ngIf=" image.filename"
+        [srcset]="propertiesService.getUrl(image.filename) " alt="image.filename">
+
+    </div>
+    <div
+      style="position: relative; bottom: 80px; right: -100px;color: #1bb8ab; font-size: 1.6rem; z-index: 9999; font-weight: 600;">
+      {{image?.title|titlecase}}</div>
+    }
+
+  </div>
+  }
+
+</div>
